@@ -1,0 +1,76 @@
+<br><br>
+<form class="form" [formGroup]="userss_Formulario" (ngSubmit)="postUsers()">
+    <label for="nombre" class="label_text">Nombre:</label > <br>
+    <input type="text" id="nombre" formControlName="nombre" required class="label_text"/> <br>
+  
+    <label for="apellido" class="label_text">Apellido:</label> <br>
+    <input type="text" id="apellido" formControlName="apellido" name="apellido" required class="label_text"/> <br>
+
+    <label for="documento" class="label_text">Documento:</label> <br>
+    <input type="text" id="documento" formControlName="documento" name="documento" required class="label_text"/> <br>
+
+    <label for="password" class="label_text">Password:</label> <br>
+    <input type="text" id="password" formControlName="password" name="password" required class="label_text"/>  <br>
+  
+    <button type="submit">Crear Usuario</button>
+</form>
+
+<br><br>
+
+<!--
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-table">
+      
+      
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="center-text"> Nombre </th>
+        <td mat-cell *matCellDef="let user"> {{user.nombre}} </td>
+      </ng-container>
+  
+      
+      <ng-container matColumnDef="apellido">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido </th>
+        <td mat-cell *matCellDef="let user"> {{user.apellido}} </td>
+      </ng-container>
+  
+      
+      <ng-container matColumnDef="documento">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Documento </th>
+        <td mat-cell *matCellDef="let user"> {{user.documento}} </td>
+      </ng-container>
+  
+      
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+-->
+
+<table class="table">
+  <thead>
+    <tr class="bg-info">
+      <th>Id</th>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Documento</th>
+      <th style="width: 50px;">Editar</th>
+      <th style="width: 50px;">Eliminar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td><input type="text" [value]="user.id" class="simple" readonly></td>
+      <td><input type="text" [value]="user.nombre" class="simple" readonly></td>
+      <td><input type="text" [value]="user.apellido" class="simple" readonly></td>
+      <td><input type="text" [value]="user.documento" class="simple" readonly></td>
+      <td><button class="simple_button">Editar</button></td>
+      <td><button class="simple_button" (click)="eliminar_user(user.id)">Eliminar</button></td>
+    </tr>
+  </tbody>
+</table>
+
+
+<br><br>
+
