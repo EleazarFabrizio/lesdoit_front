@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { NgFor } from '@angular/common';
 
+import { FormularioUsuarioComponent } from '../formulario-usuario/formulario-usuario.component';
+
 
 import { CommonModule } from '@angular/common';
 import {FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -19,7 +21,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 @Component({
   selector: 'app-cebolla',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, MatPaginatorModule, MatSortModule, MatTableModule,],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, MatPaginatorModule, MatSortModule, MatTableModule, FormularioUsuarioComponent],
   templateUrl: './cebolla.component.html',
   styleUrl: './cebolla.component.css'
 })
@@ -52,6 +54,10 @@ export class CebollaComponent implements OnInit {
 
   userss_Formulario: FormGroup | any;
 
+  mostrarFormulario: boolean = false;
+
+  usuarioSeleccionado: User | null = null;
+
   constructor(private noloseService: NoloseService) {
 
     this.userss_Formulario = new FormGroup({
@@ -60,6 +66,11 @@ export class CebollaComponent implements OnInit {
       documento: new FormControl(''),
       password: new FormControl('')
     });
+  }
+
+  toggleFormulario() {
+    this.mostrarFormulario = !this.mostrarFormulario;
+    //this.usuarioSeleccionado = null;
   }
 
 
@@ -80,18 +91,39 @@ export class CebollaComponent implements OnInit {
     });
   }
 
-  postUsers() {
-    const { id, ...userData } = this.userss_Formulario.value;
-    this.noloseService.post_nose(this.userss_Formulario.value).subscribe(users => {
-      console.log(users)
-      console.log('Usuarios obtenidos:', users);
-
-      this.users.push(users);
-      this.dataSource.data = this.users;
-      this.userss_Formulario.reset();
+  registrarUsuario(nuevoUsuario: User) {
+    this.noloseService.post_nose(nuevoUsuario).subscribe(usuario => {
+      console.log('Usuario registrado:', usuario);
+      this.fetchUsers()
     }, error => {
-      console.error('Error al obtener usuarios:', error);
+      console.error('Error al registrar usuario:', error);
     });
+  }
+
+  editarUsuario(usuario: User) {
+    
+    this.usuarioSeleccionado = usuario;
+    this.mostrarFormulario = true;
+    console.log(this.usuarioSeleccionado);
+    console.log(this.mostrarFormulario)
+  }
+
+  guardarCambios(usuarioEditado: User) {
+    if (this.usuarioSeleccionado) {
+      // Incluye el ID del usuario seleccionado en el objeto que se va a enviar
+      const usuarioConId = {
+          ...usuarioEditado,
+          id: this.usuarioSeleccionado.id // Asegúrate de pasar el ID correcto
+      }
+
+      this.noloseService.updateUser(usuarioConId).subscribe(() => {
+        this.fetchUsers();
+        this.mostrarFormulario = false;
+        this.usuarioSeleccionado = null;
+      }, error => {
+        console.error('Error al guardar cambios:', error);
+        });
+    }
   }
 
   eliminar_user(id:string) : void {
@@ -99,6 +131,7 @@ export class CebollaComponent implements OnInit {
     this.noloseService.deleteUser(id).subscribe(() => {
       
       this.users = this.users.filter(user => user.documento !== id);
+      this.fetchUsers()
     });
   }
 }

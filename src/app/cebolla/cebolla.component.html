@@ -1,5 +1,9 @@
 <br><br>
+<!--
 <form class="form" [formGroup]="userss_Formulario" (ngSubmit)="postUsers()">
+
+  <h2>Registrar usuario</h2>
+
     <label for="nombre" class="label_text">Nombre:</label > <br>
     <input type="text" id="nombre" formControlName="nombre" required class="label_text"/> <br>
   
@@ -14,6 +18,12 @@
   
     <button type="submit">Crear Usuario</button>
 </form>
+-->
+<button (click)="toggleFormulario()" class="simple_button_2">
+  Registrar Nuevo Usuario
+</button>
+
+
 
 <br><br>
 
@@ -65,8 +75,8 @@
       <td><input type="text" [value]="user.nombre" class="simple" readonly></td>
       <td><input type="text" [value]="user.apellido" class="simple" readonly></td>
       <td><input type="text" [value]="user.documento" class="simple" readonly></td>
-      <td><button class="simple_button">Editar</button></td>
-      <td><button class="simple_button" (click)="eliminar_user(user.id)">Eliminar</button></td>
+      <td><button class="simple_button" (click)="editarUsuario(user)">Editar</button></td>
+      <td><button class="simple_button" (click)="eliminar_user(user.id || '') ">Eliminar</button></td>
     </tr>
   </tbody>
 </table>
@@ -74,3 +84,4 @@
 
 <br><br>
 
+<app-formulario-usuario [usuario]="usuarioSeleccionado"  *ngIf="mostrarFormulario" (usuarioRegistrado)="registrarUsuario($event)" (usuarioEditado)="guardarCambios($event)"  (formularioCerrado)="toggleFormulario()"></app-formulario-usuario>

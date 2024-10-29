@@ -1,0 +1,23 @@
+
+<div class="overlay" (click)="cerrarFormulario()">
+    <div class="formulario-container" (click)="$event.stopPropagation()">
+        <form class="form" [formGroup]="userss_Formulario" (ngSubmit)="enviarFormulario()">
+
+            <h2>{{ usuario ? 'Editar Usuario' : 'Registrar Usuario' }}</h2>
+        
+            <label for="nombre" class="label_text">Nombre:</label > <br>
+            <input type="text" id="nombre" formControlName="nombre" required class="label_text"/> <br>
+            
+            <label for="apellido" class="label_text">Apellido:</label> <br>
+            <input type="text" id="apellido" formControlName="apellido" name="apellido" required class="label_text"/> <br>
+        
+            <label for="documento" class="label_text">Documento:</label> <br>
+            <input type="text" id="documento" formControlName="documento" name="documento" required class="label_text"/> <br>
+        
+            <label for="password" class="label_text">Password:</label> <br>
+            <input type="text" id="password" formControlName="password" name="password" required class="label_text"/>  <br>
+            
+            <button type="submit" class="simple_button_2">{{ usuario ? 'Guardar Cambios' : 'Crear Usuario' }}</button>
+        </form>
+    </div>
+</div>

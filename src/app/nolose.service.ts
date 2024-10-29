@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface User {
-  id: string;
+  id?: string;
   nombre: string;
   apellido: string;
   documento: string;
@@ -29,6 +29,12 @@ export class NoloseService {
 
   deleteUser(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+
+  updateUser(usuario: User): Observable<User> {
+    const url = `${this.apiUrl}/${usuario.id}`; // Asumiendo que tu API usa el ID en la URL
+    return this.http.patch<User>(url, usuario);
   }
   
   
